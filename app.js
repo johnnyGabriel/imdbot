@@ -21,5 +21,5 @@ app.use( '*', ( req, res, next ) => {
 
 })
 
-app.listen( 8000, () =>
+app.listen( process.env.PORT, () =>
     console.log( 'server listening on :8000' ))
