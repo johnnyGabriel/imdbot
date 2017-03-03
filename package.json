@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
+    "startm": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/johnnyGabriel/imdbot/issues"
   },
-  "homepage": "https://github.com/johnnyGabriel/imdbot#readme"
+  "homepage": "https://github.com/johnnyGabriel/imdbot#readme",
+  "dependencies": {
+    "express": "^4.15.0",
+    "nodemon": "^1.11.0"
+  }
 }
