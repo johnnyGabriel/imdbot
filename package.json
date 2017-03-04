@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/johnnyGabriel/imdbot#readme",
   "dependencies": {
+    "body-parser": "^1.17.0",
     "express": "^4.15.0",
     "nodemon": "^1.11.0"
   }

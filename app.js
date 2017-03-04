@@ -1,6 +1,12 @@
 const express = require( 'express' )
+const bodyParser = require('body-parser')
+
+const PORT = process.env.PORT
+const VALIDATION_TOKEN = process.env.VALIDATION_TOKEN
 
 const app = express()
+
+app.use( bodyParser.json() )
 
 app.get( '/', ( req, res ) => {
 
@@ -10,7 +16,19 @@ app.get( '/', ( req, res ) => {
 
 app.get( '/webhook', ( req, res ) => {
 
-    res.send( 'IMDBot webhook!' )
+    if ( req.query['hub.mode'] === 'subscribe' &&
+         req.query['hub.verify_token'] === VALIDATION_TOKEN ) {
+
+        console.log('verification ok')
+        res.send( req.query['hub.challenge'] )
+        
+    }
+    else {
+
+        console.log('verification error')
+        res.sendStatus( 403 )
+
+    }
 
 })
 
