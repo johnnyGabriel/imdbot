@@ -1,8 +1,10 @@
+const request = require('request-promise')
 const express = require( 'express' )
 const bodyParser = require('body-parser')
 
 const PORT = process.env.PORT
 const VALIDATION_TOKEN = process.env.VALIDATION_TOKEN
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
 
 const app = express()
 
@@ -29,6 +31,44 @@ app.get( '/webhook', ( req, res ) => {
         res.sendStatus( 403 )
 
     }
+
+})
+
+app.post( '/webhook', ( req, res ) => {
+
+    var data = req.body
+
+    if ( data.object === 'page' ) {
+
+        data.entry.forEach( event => {
+
+            if ( event.message ) {
+
+                console.log('<< message received', event.message)
+
+                request({
+                    uri: 'https://graph.facebook.com/v2.6/me/messages',
+                    qs: { access_token: PAGE_ACCESS_TOKEN },
+                    method: 'POST',
+                    json: {
+                        recipient: { id: event.sender.id },
+                        message: { text: event.message }
+                    } 
+                })
+                    .then( data => {
+                        console.log('>> message sended!', data)
+                    })
+                    .catch( err =>
+                        console.log('ERR', err)
+                    )
+
+            }
+
+        })
+
+    }
+
+    res.sendStatus( 200 )
 
 })
 
