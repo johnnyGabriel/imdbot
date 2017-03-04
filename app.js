@@ -46,9 +46,11 @@ app.post( '/webhook', ( req, res ) => {
 
             entry.messaging.forEach( event => {
 
+                console.log('<< event', event)
+
                 if ( event.message ) {
 
-                    console.log('<< message received', event.message)
+                    console.log('<< message received', event.message.text)
 
                     request({
                         uri: 'https://graph.facebook.com/v2.6/me/messages',
@@ -56,14 +58,14 @@ app.post( '/webhook', ( req, res ) => {
                         method: 'POST',
                         json: {
                             recipient: { id: event.sender.id },
-                            message: { text: event.message }
+                            message: { text: event.message.text }
                         } 
                     })
-                        .then( data => {
-                            console.log('>> message sended!', data)
+                        .then( response => {
+                            console.log('>> message sended!', response)
                         })
                         .catch( err =>
-                            console.log('ERR', err)
+                            console.log('!! ERR', err)
                         )
 
                 }                
