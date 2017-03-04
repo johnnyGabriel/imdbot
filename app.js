@@ -42,29 +42,35 @@ app.post( '/webhook', ( req, res ) => {
 
     if ( data.object === 'page' ) {
 
-        data.entry.forEach( event => {
+        data.entry.forEach( entry => {
 
-            if ( event.message ) {
+            entry.messaging.forEach( event => {
 
-                console.log('<< message received', event.message)
+                if ( event.message ) {
 
-                request({
-                    uri: 'https://graph.facebook.com/v2.6/me/messages',
-                    qs: { access_token: PAGE_ACCESS_TOKEN },
-                    method: 'POST',
-                    json: {
-                        recipient: { id: event.sender.id },
-                        message: { text: event.message }
-                    } 
-                })
-                    .then( data => {
-                        console.log('>> message sended!', data)
+                    console.log('<< message received', event.message)
+
+                    request({
+                        uri: 'https://graph.facebook.com/v2.6/me/messages',
+                        qs: { access_token: PAGE_ACCESS_TOKEN },
+                        method: 'POST',
+                        json: {
+                            recipient: { id: event.sender.id },
+                            message: { text: event.message }
+                        } 
                     })
-                    .catch( err =>
-                        console.log('ERR', err)
-                    )
+                        .then( data => {
+                            console.log('>> message sended!', data)
+                        })
+                        .catch( err =>
+                            console.log('ERR', err)
+                        )
 
-            }
+                }                
+
+            })
+
+            
 
         })
 
