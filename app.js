@@ -58,14 +58,33 @@ app.post( '/webhook', ( req, res ) => {
                         method: 'POST',
                         json: {
                             recipient: { id: event.sender.id },
-                            message: { text: event.message.text }
+                            message: {
+                                attachment: {
+                                    type: 'template',
+                                    payload: {
+                                        template_type: 'generic',
+                                        elements: [
+                                            { 
+                                                title: 'Item 1',
+                                                image_url: 'http://www.carderator.com/assets/avatar_placeholder_small.png',
+                                                subtitle: 'subtitulo item 1',
+                                            },
+                                            { 
+                                                title: 'Item 2',
+                                                image_url: 'http://www.carderator.com/assets/avatar_placeholder_small.png',
+                                                subtitle: 'subtitulo item 2',
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
                         } 
                     })
                         .then( response => {
                             console.log('>> message sended!', response)
                         })
                         .catch( err =>
-                            console.log('!! ERR', err)
+                            console.log('!! ERR', err.message)
                         )
 
                 }                
