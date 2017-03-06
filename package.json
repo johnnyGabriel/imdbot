@@ -1,8 +1,8 @@
 {
   "name": "imdbot",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Messenger bot that search for series and movies on IMDB",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "startm": "nodemon app.js",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/johnnyGabriel/imdbot.git"
   },
-  "author": "",
+  "author": "Johnny Gabriel <johnny_gabriel@outlook.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/johnnyGabriel/imdbot/issues"
