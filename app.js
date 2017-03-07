@@ -21,5 +21,5 @@ app.use( '*', ( req, res, next ) => {
     next()
 })
 
-app.listen( PORT, () =>
-    console.log( 'server started on', PORT ))
+app.listen( PORT || 8000, () =>
+    console.log( 'server started on', PORT || 8000))

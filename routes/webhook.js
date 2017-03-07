@@ -7,7 +7,8 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
 const router = express.Router()
 
 const getEmptyMessage = senderId => {
-    return { recipient: { id: senderId }, message: {} } }
+    return { recipient: { id: senderId }, message: {} }
+}
 
 const getTextMessage = ( senderId, text ) => {
 
@@ -33,11 +34,9 @@ const getTemplateType = type => {
 
 const toTemplateGeneric = list => {
 
-    let defaultImg = 'https://placeholdit.imgix.net/~text?txtsize=53&txt=NO%20IMAGE&w=300&h=450',
-
-        data = getTemplateType( 'generic' ),
-
-        payload = data['message']['attachment']['payload']
+    let defaultImg = 'https://placeholdit.imgix.net/~text?txtsize=53&txt=NO%20IMAGE&w=300&h=450'
+    let data = getTemplateType( 'generic' )
+    let payload = data['message']['attachment']['payload']
 
     let generateEls = data =>
         data.reduce( (acc, item) => {
@@ -84,8 +83,10 @@ router.route('')
 
     .get( ( req, res ) => {
 
-        if ( req.query['hub.mode'] === 'subscribe' &&
-             req.query['hub.verify_token'] === VALIDATION_TOKEN )
+        if (
+            req.query['hub.mode'] === 'subscribe' &&
+            req.query['hub.verify_token'] === VALIDATION_TOKEN
+        )
             res.send( req.query['hub.challenge'] )
         else
             res.sendStatus( 403 )
@@ -102,37 +103,39 @@ router.route('')
 
                 entry.messaging.forEach( event => {
 
-                    if ( event.message ) {
+                    if ( !event.message )
+                        return false
 
-                        let senderId = event.sender.id,
-                            text = event.message.text
+                    let senderId = event.sender.id,
+                        text = event.message.text
 
-                        imdbSearch( text )
-                            .then( res => {
+                    imdbSearch( text )
+                        .then( res => {
 
-                                if ( res.Response === 'False' )
-                                    return getTextMessage(
-                                        senderId, 'Não encontrei nada :|' )
-
-                                return merge(
-                                    getEmptyMessage( senderId ),
-                                    toTemplateGeneric( res.Search )
+                            if ( res.Response === 'False' )
+                                return getTextMessage(
+                                    senderId, 'Não encontrei nada :|'
                                 )
 
-                            })
-                            .then( sendMessage )
-                            .catch( err => {
+                            return merge(
+                                getEmptyMessage( senderId ),
+                                toTemplateGeneric( res.Search )
+                            )
 
-                                console.log(
-                                    '!!! erro ao enviar mensagem', err )
+                        })
+                        .then( sendMessage )
+                        .catch( err => {
 
-                                sendMessage(
-                                    getTextMessage(
-                                        senderId,
-                                        'Desculpe, não consegui concluir minhas buscas :(' ) )
+                            console.log( '!!! erro ao enviar mensagem', err )
 
-                            })
-                    }
+                            sendMessage(
+                                getTextMessage(
+                                    senderId,
+                                    'Desculpe, não consegui concluir minhas buscas :('
+                                )
+                            )
+
+                        })
                 })
             })
         }
