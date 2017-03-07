@@ -2,7 +2,7 @@ const assert = require('assert')
 const request = require('request')
 
 const API_SERVER = 'http://localhost:8000'
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN
+const VALIDATION_TOKEN = process.env.VALIDATION_TOKEN
 
 describe('HTTP Methods', function() {
 
@@ -27,7 +27,7 @@ describe('HTTP Methods', function() {
                 qs: {
                     'hub.mode': 'subscribe', 
                     'hub.challenge': 'SOME_RANDOM_CHALLENGE', 
-                    'hub.verify_token': VERIFY_TOKEN 
+                    'hub.verify_token': VALIDATION_TOKEN 
                 }
             }, function(err, res, body) {
 
