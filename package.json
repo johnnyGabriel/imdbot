@@ -1,7 +1,7 @@
 {
   "name": "imdbot",
   "version": "1.0.0",
-  "description": "Messenger bot that searchs for series and movies on IMDB",
+  "description": "Messenger bot that search for series and movies on IMDB",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
