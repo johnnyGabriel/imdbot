@@ -109,6 +109,8 @@ router.route('')
                     let senderId = event.sender.id,
                         text = event.message.text
 
+                    console.log('>> senderId', senderId)
+
                     imdbSearch( text )
                         .then( res => {
 
