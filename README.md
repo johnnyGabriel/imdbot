@@ -1,6 +1,8 @@
 # IMDbot
 Messenger bot in node.js that search for series and movies on IMDB
 
+Send message to IMDbot [here](http://m.me/imdbot)
+
 ###### Run
 
 1. Clone or download
